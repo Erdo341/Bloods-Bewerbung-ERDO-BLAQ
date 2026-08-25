@@ -5,124 +5,504 @@
 <title> Bloods Street Gang </title>
 
 <style>
+<style>
+* {
+    box-sizing: border-box;
+}
+
 body {
-    background: black;
-    color: #8a2be2;
-    font-family: Arial;
+    background: #000;
+    color: #fff;
+    font-family: Arial, Helvetica, sans-serif;
     margin: 0;
     overflow-x: hidden;
 }
 
+/* =========================
+   ALLGEMEIN
+========================= */
+
 h1 {
     font-size: 40px;
-    color: #8a2be2;
-    text-shadow: 0 0 20px #8a2be2, 0 0 40px #8a2be2;
+    color: #ff0000;
+    text-shadow: 0 0 20px #ff0000, 0 0 40px #ff0000;
 }
 
 h2 {
     font-size: 30px;
-    color: #8a2be2;
-    text-shadow: 0 0 15px #8a2be2, 0 0 30px #8a2be2;
+    color: #ff0000;
+    text-shadow: 0 0 15px #ff0000, 0 0 30px #ff0000;
 }
 
 .section {
     margin: 40px;
     padding: 20px;
-    border: 2px solid #8a2be2;
+    border: 2px solid #ff0000;
     border-radius: 10px;
-    box-shadow: 0 0 20px #8a2be2;
+    box-shadow: 0 0 20px #ff0000;
     transition: all 0.25s ease;
     cursor: pointer;
 }
 
-/* HOVER ZOOM (BLEIBT) */
 .section:hover {
     transform: scale(1.07);
-    box-shadow: 0 0 50px #8a2be2;
+    box-shadow: 0 0 50px #ff0000;
 }
 
-/* FACTIONS (BLEIBT 1:1) */
-.mara { color: #00aaff; text-shadow:0 0 10px #00aaff; }
-.grove { color: #00ff00; text-shadow:0 0 10px #00ff00; }
-.bloods { color: #ff0000; text-shadow:0 0 10px #ff0000; }
-.vagos { color: #ffff00; text-shadow:0 0 10px #ffff00; }
-.ballas { color: #aa00ff; text-shadow:0 0 10px #aa00ff; }
-.NG { color: #7CFC90; text-shadow:0 0 10px #4da6ff; }
+/* =========================
+   FACTIONS
+========================= */
+
+.mara {
+    color: #00aaff;
+    text-shadow: 0 0 10px #00aaff;
+}
+
+.grove {
+    color: #00ff00;
+    text-shadow: 0 0 10px #00ff00;
+}
+
+.bloods {
+    color: #ff0000;
+    text-shadow: 0 0 10px #ff0000;
+}
+
+.vagos {
+    color: #ffff00;
+    text-shadow: 0 0 10px #ffff00;
+}
+
+.ballas {
+    color: #aa00ff;
+    text-shadow: 0 0 10px #aa00ff;
+}
+
+.NG {
+    color: #7CFC90;
+    text-shadow: 0 0 10px #4da6ff;
+}
+
+.PD {
+    color: #00008b;
+    text-shadow: 0 0 10px #00008b;
+}
+
+
+/* =====================================================
+   STARTSCREEN
+===================================================== */
 
 #startscreen {
+    position: relative;
+    width: 100%;
     height: 100vh;
+    min-height: 600px;
+
     display: flex;
     justify-content: center;
     align-items: center;
     flex-direction: column;
+
+    overflow: hidden;
+    background:
+        radial-gradient(
+            circle at 50% 50%,
+            rgba(100, 0, 0, 0.18),
+            rgba(0, 0, 0, 0.96) 55%,
+            #000 100%
+        );
 }
+
+
+/* =========================
+   BEWEGTER HINTERGRUND
+========================= */
+
+/* große rote Lichtwolke */
+#startscreen::before {
+    content: "";
+    position: absolute;
+
+    width: 650px;
+    height: 650px;
+
+    left: 50%;
+    top: 50%;
+
+    transform: translate(-50%, -50%);
+
+    background: radial-gradient(
+        circle,
+        rgba(255, 0, 0, 0.16) 0%,
+        rgba(255, 0, 0, 0.08) 25%,
+        rgba(255, 0, 0, 0.025) 50%,
+        transparent 72%
+    );
+
+    filter: blur(30px);
+
+    animation: bloodGlow 6s ease-in-out infinite;
+}
+
+
+/* zweite bewegende Lichtwolke */
+#startscreen::after {
+    content: "";
+
+    position: absolute;
+
+    width: 900px;
+    height: 220px;
+
+    left: -300px;
+    top: 25%;
+
+    background: linear-gradient(
+        90deg,
+        transparent,
+        rgba(255, 0, 0, 0.08),
+        rgba(255, 0, 0, 0.18),
+        rgba(255, 0, 0, 0.04),
+        transparent
+    );
+
+    filter: blur(35px);
+
+    transform: rotate(-12deg);
+
+    animation: redSweep 8s ease-in-out infinite;
+}
+
+
+@keyframes bloodGlow {
+
+    0% {
+        transform: translate(-50%, -50%) scale(0.85);
+        opacity: 0.45;
+    }
+
+    50% {
+        transform: translate(-50%, -50%) scale(1.18);
+        opacity: 1;
+    }
+
+    100% {
+        transform: translate(-50%, -50%) scale(0.85);
+        opacity: 0.45;
+    }
+}
+
+
+@keyframes redSweep {
+
+    0% {
+        left: -700px;
+        opacity: 0;
+    }
+
+    20% {
+        opacity: 0.8;
+    }
+
+    50% {
+        left: 40%;
+        opacity: 1;
+    }
+
+    80% {
+        opacity: 0.4;
+    }
+
+    100% {
+        left: 120%;
+        opacity: 0;
+    }
+}
+
+
+/* =========================
+   PARTIKEL
+========================= */
+
+.particle {
+    position: absolute;
+
+    width: 3px;
+    height: 3px;
+
+    background: #ff0000;
+
+    border-radius: 50%;
+
+    box-shadow:
+        0 0 6px #ff0000,
+        0 0 12px rgba(255, 0, 0, 0.7);
+
+    pointer-events: none;
+
+    animation: particleMove linear infinite;
+}
+
+
+@keyframes particleMove {
+
+    0% {
+        transform:
+            translateY(110vh)
+            translateX(0)
+            scale(0.4);
+
+        opacity: 0;
+    }
+
+    10% {
+        opacity: 0.8;
+    }
+
+    50% {
+        opacity: 1;
+    }
+
+    90% {
+        opacity: 0.4;
+    }
+
+    100% {
+        transform:
+            translateY(-15vh)
+            translateX(80px)
+            scale(1);
+
+        opacity: 0;
+    }
+}
+
+
+/* =========================
+   TITLE
+========================= */
 
 .title {
-    font-size: 70px;
-    color: #8a2be2;
-    text-shadow: 0 0 30px #8a2be2, 0 0 60px #8a2be2;
-    animation: shake 0.8s infinite;
+    position: relative;
+
+    z-index: 10;
+
+    font-size: clamp(42px, 6vw, 76px);
+
+    font-weight: 600;
+
+    letter-spacing: 8px;
+
+    text-align: center;
+
+    color: #ff1616;
+
+    /* nicht mehr so dick / besser lesbar */
+    -webkit-text-stroke: 0.5px rgba(255, 0, 0, 0.5);
+
+    text-shadow:
+        0 0 8px rgba(255, 0, 0, 0.8),
+        0 0 22px rgba(255, 0, 0, 0.45),
+        0 0 45px rgba(255, 0, 0, 0.2);
+
+    animation: titlePulse 4s ease-in-out infinite;
+
+    user-select: none;
 }
 
-@keyframes shake {
-    0% { transform: translate(0px,0px); }
-    50% { transform: translate(4px,-4px); }
-    100% { transform: translate(0px,0px); }
+
+@keyframes titlePulse {
+
+    0% {
+        transform: scale(1);
+        text-shadow:
+            0 0 8px rgba(255, 0, 0, 0.8),
+            0 0 22px rgba(255, 0, 0, 0.45),
+            0 0 45px rgba(255, 0, 0, 0.2);
+    }
+
+    50% {
+        transform: scale(1.025);
+        text-shadow:
+            0 0 12px rgba(255, 0, 0, 1),
+            0 0 30px rgba(255, 0, 0, 0.65),
+            0 0 60px rgba(255, 0, 0, 0.3);
+    }
+
+    100% {
+        transform: scale(1);
+        text-shadow:
+            0 0 8px rgba(255, 0, 0, 0.8),
+            0 0 22px rgba(255, 0, 0, 0.45),
+            0 0 45px rgba(255, 0, 0, 0.2);
+    }
 }
+
+
+/* =========================
+   ENTER BUTTON
+========================= */
 
 button {
-    margin-top: 30px;
-    padding: 12px 25px;
-    background: #8a2be2;
-    border: none;
+    position: relative;
+
+    z-index: 20;
+
+    margin-top: 35px;
+
+    padding: 14px 42px;
+
+    background: transparent;
+
+    border: 1px solid #ff0000;
+
+    border-radius: 4px;
+
     cursor: pointer;
-    font-weight: bold;
-    color: white;
+
+    font-size: 14px;
+
+    font-weight: 600;
+
+    letter-spacing: 4px;
+
+    color: #fff;
+
+    box-shadow:
+        0 0 10px rgba(255, 0, 0, 0.45),
+        inset 0 0 10px rgba(255, 0, 0, 0.08);
+
+    transition:
+        transform 0.25s ease,
+        background 0.25s ease,
+        box-shadow 0.25s ease,
+        letter-spacing 0.25s ease;
+
+    animation: buttonAppear 1.2s ease-out both;
 }
 
-/* CONTENT */
+
+button:hover {
+    background: #ff0000;
+
+    color: #fff;
+
+    transform: scale(1.08);
+
+    letter-spacing: 6px;
+
+    box-shadow:
+        0 0 15px #ff0000,
+        0 0 35px rgba(255, 0, 0, 0.7),
+        0 0 70px rgba(255, 0, 0, 0.35);
+}
+
+
+button:active {
+    transform: scale(0.96);
+}
+
+
+@keyframes buttonAppear {
+
+    from {
+        opacity: 0;
+        transform: translateY(35px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+
+/* =========================
+   CONTENT
+========================= */
+
 #content {
-    display:none;
+    display: none;
     opacity: 0;
 }
 
-/* ZOOM ENTER */
+
+/* =========================
+   ZOOM ENTER
+========================= */
+
 .zoomOut {
     animation: zoomOut 0.9s ease forwards;
 }
 
+
 @keyframes zoomOut {
-    0% { transform: scale(1); opacity: 1; }
-    100% { transform: scale(2.5); opacity: 0; }
+
+    0% {
+        transform: scale(1);
+        opacity: 1;
+    }
+
+    100% {
+        transform: scale(2.5);
+        opacity: 0;
+    }
 }
 
-/* FADE IN */
+
+/* =========================
+   FADE IN
+========================= */
+
 .fadeIn {
     animation: fadeIn 1s ease forwards;
 }
 
+
 @keyframes fadeIn {
-    from { opacity: 0; }
-    to { opacity: 1; }
+
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
 }
 
-/* DIM MODE */
+
+/* =========================
+   DIM MODE
+========================= */
+
 .section.dim {
     opacity: 0.15;
     filter: blur(3px);
     transform: scale(0.98);
 }
 
-/* FOCUS MODE (MITTEL-GROSSE CARD) */
+
+/* =========================
+   FOCUS MODE
+========================= */
+
 .section.focused {
     position: relative;
+
     width: 75%;
+
     margin: 40px auto;
+
     transform: scale(1.02);
+
     z-index: 999;
+
     opacity: 1 !important;
+
     filter: blur(0px);
-    box-shadow: 0 0 90px #8a2be2;
+
+    box-shadow: 0 0 90px #ff0000;
 }
 </style>
 
@@ -131,14 +511,14 @@ button {
 <body>
 
 <div id="startscreen">
-    <div class="title">The Ballas Gang</div>
+    <div class="title">The Bloods Street Gang</div>
     <button onclick="startApp()">ENTER</button>
 </div>
 
 <div id="content">
 
 <div class="section">
-<h1>Bewerbung als Leader der Ballas Gang ( Front Yard Ballas) </h1>
+<h1>Bewerbung als Leader der Bloods Street Gang </h1>
 <p><b>Name:</b> Erdo Blaq</p>
 </div>
 
@@ -162,27 +542,29 @@ Organisationen<br><br>
 <span class="mara">Mara: Vize </span><br><br>
 <span class="bloods">Bloods: Vize  </span><br><br>
 <span class="vagos">Vagos: 10er + Turfleader </span><br><br>
-<span class="grove">Grove: Vize </span><br><br>
+<span class="grove">Grove: Vize + Turfleader </span><br><br>
 <span class="ballas">Ballas: Rang 10 </span><br><br>
-<span class="NG">NG: Rang 22 </span>
+<span class="NG">NG: Rang 22 </span> </span><br><br>
+<span class="PD">PD: Rang 11 </span>
 </p>
 </div>
 
 <div class="section">
 <h2>Warum ich Leader werden will</h2>
 <p>
-Die Ballas waren für mich schon immer eine der coolsten und gleichzeitig gefährlichsten Organisationen in der Crime-Szene. Ihr Auftreten, ihre Geschichte und die Präsenz, die sie auf der Straße zeigen, haben diese Organisation für mich immer besonders gemacht. Genau deshalb haben die Ballas für mich einen hohen Stellenwert und sind eine Organisation, mit der ich mich stark identifizieren kann.
-Durch meine bisherigen Crime Zeit konnte ich bereits viele Erfahrungen sammeln und war mehrfach als Vize in verschiedenen Organisationen tätig. Diese Positionen haben mir gezeigt, was es bedeutet, Verantwortung zu übernehmen, Member zu führen, Strukturen aufzubauen und eine Organisation aktiv voranzubringen. Ich habe gelernt, dass Erfolg nicht nur durch Stärke entsteht, sondern vor allem durch Zusammenhalt, Aktivität und eine klare Führung.
-Mittlerweile sehe ich mich bereit, den nächsten Schritt zu gehen und eine eigene Organisation zu führen. Die Erfahrungen, die ich als Vize gesammelt habe, möchte ich nutzen, um die Ballas weiterzuentwickeln und zu einer aktiven, respektierten und gefürchteten Gang zu machen. Mein Ziel ist es, eine starke Gemeinschaft aufzubauen, die geschlossen auftritt, zusammenhält und die Präsenz der Ballas in der Crime-Szene weiter ausbaut.
-Ich bin überzeugt davon, dass ich mit meiner Erfahrung, meinem Engagement und meiner Verantwortung die richtige Person bin, um die Ballas zu führen und ihnen zu dem Stellenwert zu verhelfen, den diese Organisation verdient.</p>
+Die Bloods waren meine erste richtige Organisation und haben deshalb einen besonderen Stellenwert für mich. Ich war bereits Teil der Bloods, bevor sie geschlossen wurden, und konnte mir dort durch Aktivität und Engagement meinen ersten Rang 10 erarbeiten
+Durch meine bisherige Crime-Zeit und meine Erfahrungen als Vize sowie als Turflead konnte ich viel über Führung, Verantwortung und Turf-Aktivitäten lernen. Dieses Wissen möchte ich jetzt nutzen, um die Bloods wieder groß zu machen
+Mein Ziel ist es, die Bloods zu einer starken und aktiven Organisation aufzubauen, eine wichtige Rolle in der Crime-Szene zu spielen und den 100% Turf zu erreichen Durch meine Erfahrung als Turflead bin ich überzeugt, dass ich dafür die nötigen Kenntnisse und die Führung mitbringe
+Da die Bloods für mich eine besondere Bedeutung haben, möchte ich die Organisation wieder an die Spitze bringen und erfolgreich weiterführen
+</p>
 </div>
 
 <div class="section">
 <h2>Meine Ziele</h2>
 <p>
-Mein Ziel ist es, die Ballas so weiterzuführen, wie es sich für diese Organisation gehört, und sie wieder zu einer der stärksten Gangs in der gesamten Crime-Szene zu machen. Die Ballas sollen wieder für Stärke, Zusammenhalt und eine starke Präsenz stehen, sodass jeder weiß, mit wem er es zu tun hat.
-Ein weiteres großes Ziel von mir ist es, den Turf zu 100 % zu kontrollieren und das Ghetto wieder zu unserem Gebiet zu machen. Wenn irgendwo im Ghetto etwas passiert, soll jedem klar sein, dass die Ballas eine entscheidende Rolle spielen. Durch eine starke Führung, aktive Member und einen guten Zusammenhalt möchte ich dafür sorgen, dass wir unser Gebiet dominieren und uns den Respekt anderer Organisationen verdienen.
-Dabei ist mir wichtig, dass die Ballas nicht nur durch Stärke überzeugen, sondern auch durch Aktivität und eine geschlossene Gemeinschaft. Mit regelmäßigen Aktionen, Events und einer motivierten Memberstruktur möchte ich eine Organisation aufbauen, die dauerhaft präsent ist und ihren Namen als eine der gefährlichsten und respektiertesten Crime-Organisationen weiter ausbaut.
+Mein Ziel ist es, die Bloods wieder zu einer der stärksten und aktivsten Gangs der Crime-Szene zu machen. Die Bloods sollen für Stärke, Zusammenhalt und eine starke Präsenz stehen
+Dabei möchte ich vor allem eine loyale und aktive Memberstruktur aufbauen, in der jeder gerne ein Teil der Bloods ist und gemeinsam für den Erfolg der Organisation arbeitet Durch regelmäßige Aktionen, gute Führung und einen starken Zusammenhalt möchte ich die Bloods wieder zu einer Organisation machen, die man in der Crime-Szene ernst nehmen muss
+Außerdem möchte ich neue Spieler für die Bloods gewinnen und gleichzeitig dafür sorgen, dass die bestehenden Member langfristig motiviert bleiben. Mein Ziel ist es, die Bloods nicht nur kurzfristig aufzubauen, sondern dauerhaft erfolgreich zu machen
 </p>
 </div>
 
@@ -190,18 +572,17 @@ Dabei ist mir wichtig, dass die Ballas nicht nur durch Stärke überzeugen, sond
 <h2>Meine Vorschläge fürs verbessern des Rollenspiels innerhalb der Organisation</h2>
 <p>
 Ghetto Präsenz<br>
-In letzter Zeit hat das Ghetto deutlich an Bedeutung und Respekt verloren, da immer mehr kleine Gruppen oder Familien der Meinung sind, dort ohne Konsequenzen auftreten zu können. Genau das möchte ich ändern. Mein Ziel ist es, das Ghetto wieder zu einem gefährlichen und respektierten Gebiet zu machen, in dem klare Strukturen herrschen und jeder weiß, welche Präsenz die Ballas besitzen.
-Das Ghetto soll wieder ein Ort sein, an dem man sich Respekt verdienen muss und nicht einfach machen kann, was man möchte. Durch eine aktive Organisation, regelmäßige Präsenz und ein geschlossenes Auftreten möchte ich dafür sorgen, dass die Ballas wieder eine dominante Rolle einnehmen und ihr Gebiet verteidigen.
-Mir ist wichtig, dass die Straßen wieder den Ruf bekommen, für den sie bekannt sind. Die Ballas sollen zeigen, dass sie eine ernstzunehmende Macht sind und dass jeder, der das Ghetto betritt, die Stärke und den Zusammenhalt der Organisation wahrnimmt. Mein Ziel ist es, eine Atmosphäre zu schaffen, in der das Ghetto wieder gefürchtet und respektiert wird.
-</p>
+In letzter Zeit hat das Ghetto deutlich an Bedeutung und Respekt verloren, da viele kleinere Gruppen der Meinung sind, dort ohne Konsequenzen auftreten zu können. Genau das möchte ich ändern und die Bloods wieder zu einer klaren Macht im Ghetto machen
+Mein Ziel ist es, durch aktive Präsenz, regelmäßige Aktionen und ein geschlossenes Auftreten dafür zu sorgen, dass das Ghetto wieder für die Bloods steht. Dabei bin ich der Meinung, dass es im Ghetto eine klare Führung geben sollte und nicht zwei gleich starke Organisationen, die dauerhaft um die Vorherrschaft kämpfen. Ich möchte, dass die Bloods diese Rolle übernehmen und die klare Nummer 1 im Ghetto werden
+Das Ghetto soll wieder ein Gebiet sein, in dem man sich Respekt verdienen muss und jeder weiß, dass die Bloods dort präsent sind und für Ordnung sorgen </p>
 </div>
 
 <div class="section">
 <h2>Ammu/Shop Robs</h2>
 <p>
-Ammu- und Shoprobs sollten für mich regelmäßig stattfinden, da solche Aktionen einen wichtigen Teil des Crime-RPs ausmachen und für mehr Aktivität zwischen Crime und State sorgen. Durch geplante und koordinierte Aktionen entstehen spannende Situationen, Verhandlungen und Auseinandersetzungen, die das gesamte Servergeschehen bereichern.
-Mein Ziel ist es, mit den Ballas wieder eine aktive und präsente Crime-Organisation aufzubauen, die keine Möglichkeiten auslässt, für Action zu sorgen und den Kontakt mit der State zu fördern. Gleichzeitig können solche Aktionen auch größere Situationen wie FIB-HQ-Raids oder andere Konflikte entstehen lassen, wodurch mehr Spannung und Konkurrenz auf dem Server entsteht.
-Die Ballas sollen zeigen, dass Crime aktiv ist, Präsenz zeigt und jederzeit bereit ist, für große Situationen zu sorgen.</p>
+Ammu- und Shoprobs sollten für mich regelmäßig stattfinden, da sie einen wichtigen Teil des Crime-RPs ausmachen und für mehr Aktivität zwischen Crime und State sorgen. Durch gut geplante Aktionen können spannende Situationen, Verhandlungen und Auseinandersetzungen entstehen.
+Mein Ziel ist es, mit den Bloods regelmäßig solche Situationen zu schaffen und dadurch mehr Leben in die Crime-Szene zu bringen. Dabei möchte ich nicht nur auf kleine Aktionen setzen, sondern auch größere und abwechslungsreiche Situationen planen, bei denen mehrere Organisationen eingebunden werden können.
+Die Bloods sollen für Aktivität und starke Crime-Situationen stehen und zeigen, dass wir jederzeit bereit sind, für Action und Abwechslung auf dem Server zu sorgen.</p>
 </div>
 
 <div class="section">
@@ -218,8 +599,8 @@ Mein Ziel ist es, meine gesammelten Erfahrungen einzubringen, eine starke Strukt
 <p>
 1. Hoodrat (Strafrang)<br>
 2. Prospect (Probe Mitglied)<br>
-3. Young Balla (Mitglied das sich beweist)<br>
-4. Big Balla (Standard Gang Mitglied)<br>
+3. Young Blood (Mitglied das sich beweist)<br>
+4. Big Blood (Standard Gang Mitglied)<br>
 5. Hood Gangster (Erfahrener Kämpfer der gang)<br>
 6. Big G (Volles Mitglied inkl. Zinkrechte)<br><br>
 
@@ -237,9 +618,9 @@ Rang 7 und 8 sind für normale Member ausgeschlossen. Upranks kriegt man durch A
 <div class="section">
 <h2>Fazit</h2>
 <p>
-Ich möchte Leader der Ballas werden, weil ich die Motivation, Erfahrung und den nötigen Respekt dafür mitbringe. Während meiner Zeit als Vize konnte ich bereits eng an der Führung mitarbeiten und miterleben, wie gut die Organisation funktioniert hat. Genau daran möchte ich anknüpfen und die Bloods konsequent weiterführen.
+Ich möchte Leader der Bloods werden, weil ich die Motivation, Erfahrung und den nötigen Respekt dafür mitbringe. Während meiner Zeit als Vize konnte ich bereits eng an der Führung mitarbeiten und miterleben, wie gut die Organisation funktioniert hat. Genau daran möchte ich anknüpfen und die Bloods konsequent weiterführen.
 Mein Ziel ist es, die Bloods nicht nur stabil zu halten, sondern sie weiter auszubauen und noch strukturierter sowie aktiver zu gestalten. Die Zeit als Vize hat mir gezeigt, was gut funktioniert hat – und wo noch Verbesserungspotenzial besteht. Besonders wichtig ist mir dabei mehr Konsequenz, klare Regeln und eine starke Präsenz der Gang im Ghetto sowie auf den Straßen.
-Ich möchte eine klare Führung bieten, in der Disziplin und Teamarbeit im Vordergrund stehen, gleichzeitig aber jeder die Möglichkeit hat, sich hochzuarbeiten. Die Ballas sollen als Einheit/Familie auftreten und wieder eine dominante Rolle im Ghetto einnehmen.
+Ich möchte eine klare Führung bieten, in der Disziplin und Teamarbeit im Vordergrund stehen, gleichzeitig aber jeder die Möglichkeit hat, sich hochzuarbeiten. Die Bloods sollen als Einheit/Familie auftreten und wieder eine dominante Rolle im Ghetto einnehmen.
 Ich danke fürs Lesen. #B4L
 </p>
 </div>
@@ -247,19 +628,7 @@ Ich danke fürs Lesen. #B4L
 </div>
 
 <script>
-function startApp(){
-    const startscreen = document.getElementById("startscreen");
-    const content = document.getElementById("content");
-
-    startscreen.classList.add("zoomOut");
-
-    setTimeout(() => {
-        startscreen.style.display = "none";
-        content.style.display = "block";
-        content.classList.add("fadeIn");
-    }, 900);
-}
-
+function startApp(){ const startscreen = document.getElementById("startscreen"); const content = document.getElementById("content"); startscreen.classList.add("zoomOut"); setTimeout(() => { startscreen.style.display = "none"; content.style.display = "block"; content.classList.add("fadeIn"); }, 900); }
 /* CLICK FOCUS MODE */
 const sections = document.querySelectorAll(".section");
 
